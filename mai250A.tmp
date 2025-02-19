@@ -1,0 +1,340 @@
+[gd_scene load_steps=30 format=3 uid="uid://bc8f1sgv6qrwv"]
+
+[ext_resource type="Material" uid="uid://bn3h8cgifor8a" path="res://materials/grass.tres" id="1_l7u6l"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/scatter.gd" id="2_518vg"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/stack/modifier_stack.gd" id="3_myllw"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/modifiers/base_modifier.gd" id="4_0xns5"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/modifiers/create_inside_random.gd" id="5_d1xix"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/modifiers/randomize_transforms.gd" id="6_ake1m"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/modifiers/relax.gd" id="7_8fbrb"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/modifiers/project_on_geometry.gd" id="8_8j4ty"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/scatter_item.gd" id="9_t45yg"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/scatter_shape.gd" id="10_smjbo"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/shapes/box_shape.gd" id="11_vi1tw"]
+[ext_resource type="Script" path="res://player.gd" id="12_7xu2k"]
+[ext_resource type="ArrayMesh" uid="uid://cgtux24tcoc3e" path="res://OBJ format/character-female-a.obj" id="13_upbsl"]
+[ext_resource type="PackedScene" uid="uid://h1cw63nvlvo0" path="res://models/crystal.glb" id="18_bh42v"]
+[ext_resource type="Script" path="res://CameraFollow.gd" id="18_trwpp"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_kre5x"]
+
+[sub_resource type="Sky" id="Sky_sebal"]
+sky_material = SubResource("ProceduralSkyMaterial_kre5x")
+
+[sub_resource type="Environment" id="Environment_hycg4"]
+background_mode = 2
+sky = SubResource("Sky_sebal")
+ambient_light_energy = 0.22
+tonemap_mode = 2
+tonemap_exposure = 2.52
+tonemap_white = 12.12
+glow_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_w7pkr"]
+size = Vector3(45.5496, 1.06543, 35.197)
+
+[sub_resource type="Resource" id="Resource_0pxfy"]
+script = ExtResource("5_d1xix")
+amount = 250
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = true
+reference_frame = 1
+
+[sub_resource type="Resource" id="Resource_c2vig"]
+script = ExtResource("6_ake1m")
+position = Vector3(0.15, 0.15, 0.15)
+rotation = Vector3(20, 360, 20)
+scale = Vector3(0.1, 0.1, 0.1)
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = false
+reference_frame = 2
+
+[sub_resource type="Resource" id="Resource_a0pst"]
+script = ExtResource("7_8fbrb")
+iterations = 3
+offset_step = 0.2
+consecutive_step_multiplier = 0.75
+use_computeshader = true
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = true
+reference_frame = 0
+
+[sub_resource type="Resource" id="Resource_eymo2"]
+script = ExtResource("8_8j4ty")
+ray_direction = Vector3(0, -1, 0)
+ray_length = 5.0
+ray_offset = 5.0
+remove_points_on_miss = false
+align_with_collision_normal = false
+max_slope = 90.0
+collision_mask = 1
+exclude_mask = 0
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = false
+reference_frame = 0
+
+[sub_resource type="Resource" id="Resource_3u7w7"]
+script = ExtResource("3_myllw")
+stack = Array[ExtResource("4_0xns5")]([SubResource("Resource_0pxfy"), SubResource("Resource_c2vig"), SubResource("Resource_a0pst"), SubResource("Resource_eymo2")])
+
+[sub_resource type="Resource" id="Resource_8qpsp"]
+script = ExtResource("11_vi1tw")
+size = Vector3(43.4729, 0, 33.8356)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ub6tb"]
+radius = 0.675992
+height = 1.43492
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_405wa"]
+radius = 1.8182
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_xukn1"]
+radius = 1.40525
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_hurpl"]
+radius = 2.34586
+
+[node name="World" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.05613, -0.495193, -0.702089)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_hycg4")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 6.00607, 7.29714, 2.50169)
+shadow_enabled = true
+
+[node name="floor" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.474126, -1.40062, 2.2446)
+material_override = ExtResource("1_l7u6l")
+use_collision = true
+size = Vector3(45.2373, 1, 35.0762)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0708334, -0.108016, -0.0230713)
+shape = SubResource("BoxShape3D_w7pkr")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="TimerLabel" type="Label" parent="UI"]
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 30
+text = "Time: 30"
+
+[node name="ProtonScatter" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.201468, 1.42469, 0.107577)
+script = ExtResource("2_518vg")
+show_output_in_tree = true
+modifier_stack = SubResource("Resource_3u7w7")
+Performance/use_chunks = true
+Performance/chunk_dimensions = Vector3(15, 15, 15)
+
+[node name="grmuski" type="Node3D" parent="ProtonScatter"]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -2.06352, -2.51694, -2.43131)
+script = ExtResource("9_t45yg")
+path = "res://addons/proton_scatter/demos/assets/bush.tscn"
+
+[node name="drva" type="Node3D" parent="ProtonScatter"]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -2.06352, -2.51694, -2.43131)
+script = ExtResource("9_t45yg")
+path = "res://addons/proton_scatter/demos/assets/pine_tree.tscn"
+
+[node name="rocks" type="Node3D" parent="ProtonScatter"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -2.06352, -2.51694, -2.43131)
+script = ExtResource("9_t45yg")
+proportion = 30
+path = "res://addons/proton_scatter/demos/assets/grass_2.tscn"
+
+[node name="ScatterShape" type="Node3D" parent="ProtonScatter"]
+transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0.102377, -1.34595, 1.93366)
+visible = false
+script = ExtResource("10_smjbo")
+shape = SubResource("Resource_8qpsp")
+
+[node name="ScatterOutput" type="Marker3D" parent="ProtonScatter"]
+
+[node name="grmuski" type="Node3D" parent="ProtonScatter/ScatterOutput"]
+
+[node name="drva" type="Node3D" parent="ProtonScatter/ScatterOutput"]
+
+[node name="rocks" type="Node3D" parent="ProtonScatter/ScatterOutput"]
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(0.59793, -0.00953197, -0.0488751, 0.00889159, 0.599878, -0.00821418, 0.0489956, 0.00746154, 0.59795, 1.325, -0.6, -0.028)
+collision_layer = 2
+collision_mask = 13
+script = ExtResource("12_7xu2k")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
+transform = Transform3D(1.3, 1.93715e-08, 3.60822e-17, -1.93715e-08, 1.3, 2.42144e-09, 0, -2.42144e-09, 1.3, -0.873564, -0.830038, 0.286757)
+mesh = ExtResource("13_upbsl")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+transform = Transform3D(1, -5.82077e-09, 2.98023e-08, -2.37487e-08, 1, -7.45058e-09, 0, -1.11759e-08, 1, -0.860688, -0.360373, 0.299303)
+shape = SubResource("CapsuleShape3D_ub6tb")
+
+[node name="CameraPivot" type="Node3D" parent="Player" node_paths=PackedStringArray("player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+script = ExtResource("18_trwpp")
+player = NodePath("..")
+
+[node name="Camera3D" type="Camera3D" parent="Player/CameraPivot"]
+transform = Transform3D(-1.66338, -0.0454462, -0.094179, -0.03972, 1.66313, -0.101013, 0.0967335, -0.0985693, -1.66093, -1, 0, -4)
+fov = 86.8061
+
+[node name="GameTimer" type="Timer" parent="Player"]
+wait_time = 30.0
+autostart = true
+
+[node name="GameOverUI" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="GameOverUI"]
+layout_mode = 0
+offset_left = 410.0
+offset_top = 325.0
+offset_right = 734.0
+offset_bottom = 404.0
+color = Color(0, 0.00392157, 0.00784314, 0.47451)
+
+[node name="Label" type="Label" parent="GameOverUI/ColorRect"]
+layout_mode = 0
+offset_left = 97.0
+offset_top = 28.0
+offset_right = 346.0
+offset_bottom = 63.0
+text = "GAME OVER!"
+uppercase = true
+
+[node name="Sketchfab_Scene" parent="." groups=["Treasures"] instance=ExtResource("18_bh42v")]
+transform = Transform3D(0.135432, 0.0235751, 0.145266, 0.00524322, 0.196519, -0.0367811, -0.147073, 0.0287151, 0.132457, -1.24865, -0.666647, -1.58576)
+
+[node name="TreasureArea" type="Area3D" parent="Sketchfab_Scene"]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sketchfab_Scene/TreasureArea"]
+transform = Transform3D(1, 0, 5.96046e-08, -2.79397e-09, 1, -3.72529e-09, 5.96046e-08, -1.39698e-08, 1, 0.252213, 0.271347, -0.00958633)
+shape = SubResource("SphereShape3D_405wa")
+
+[node name="Sketchfab_Scene5" parent="." groups=["Treasures"] instance=ExtResource("18_bh42v")]
+transform = Transform3D(0.135432, 0.0235751, 0.145266, 0.00524322, 0.196519, -0.0367811, -0.147073, 0.0287151, 0.132457, 1.11496, -0.708985, 5.15105)
+
+[node name="TreasureArea" type="Area3D" parent="Sketchfab_Scene5"]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sketchfab_Scene5/TreasureArea"]
+transform = Transform3D(1, 0, 5.96046e-08, -2.79397e-09, 1, -3.72529e-09, 5.96046e-08, -1.39698e-08, 1, 0.252213, 0.271347, -0.00958633)
+shape = SubResource("SphereShape3D_405wa")
+
+[node name="Sketchfab_Scene8" parent="." groups=["Treasures"] instance=ExtResource("18_bh42v")]
+transform = Transform3D(0.135432, 0.0235751, 0.145266, 0.00524322, 0.196519, -0.0367811, -0.147073, 0.0287151, 0.132457, -1.00084, -0.716525, -6.72987)
+
+[node name="TreasureArea" type="Area3D" parent="Sketchfab_Scene8"]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sketchfab_Scene8/TreasureArea"]
+transform = Transform3D(1, 0, 5.96046e-08, -2.79397e-09, 1, -3.72529e-09, 5.96046e-08, -1.39698e-08, 1, 0.252213, 0.271347, -0.00958633)
+shape = SubResource("SphereShape3D_405wa")
+
+[node name="Sketchfab_Scene9" parent="." groups=["Treasures"] instance=ExtResource("18_bh42v")]
+transform = Transform3D(0.135432, 0.0235751, 0.145266, 0.00524322, 0.196519, -0.0367811, -0.147073, 0.0287151, 0.132457, -6.75886, -0.649338, -3.14343)
+
+[node name="TreasureArea" type="Area3D" parent="Sketchfab_Scene9"]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sketchfab_Scene9/TreasureArea"]
+transform = Transform3D(1, 0, 5.96046e-08, -2.79397e-09, 1, -3.72529e-09, 5.96046e-08, -1.39698e-08, 1, 0.252213, 0.271347, -0.00958633)
+shape = SubResource("SphereShape3D_405wa")
+
+[node name="Sketchfab_Scene10" parent="." groups=["Treasures"] instance=ExtResource("18_bh42v")]
+transform = Transform3D(0.135432, 0.0235751, 0.145266, 0.00524322, 0.196519, -0.0367811, -0.147073, 0.0287151, 0.132457, 7.77556, -0.651603, -3.47828)
+
+[node name="TreasureArea" type="Area3D" parent="Sketchfab_Scene10"]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sketchfab_Scene10/TreasureArea"]
+transform = Transform3D(1, 0, 5.96046e-08, -2.79397e-09, 1, -3.72529e-09, 5.96046e-08, -1.39698e-08, 1, 0.252213, 0.271347, -0.00958633)
+shape = SubResource("SphereShape3D_405wa")
+
+[node name="Sketchfab_Scene6" parent="." groups=["Treasures"] instance=ExtResource("18_bh42v")]
+transform = Transform3D(0.123132, 0.00412554, 0.157548, 0, 0.199931, -0.00523539, -0.157602, 0.00322323, 0.12309, -4.89738, -0.67198, -11.3216)
+
+[node name="TreasureArea" type="Area3D" parent="Sketchfab_Scene6"]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sketchfab_Scene6/TreasureArea"]
+transform = Transform3D(1, -9.31323e-10, 5.96046e-08, -7.45058e-09, 1, -5.58794e-09, 5.96046e-08, -2.23517e-08, 1, 0.137768, -0.467139, -0.267258)
+shape = SubResource("SphereShape3D_xukn1")
+
+[node name="Sketchfab_Scene7" parent="." groups=["Treasures"] instance=ExtResource("18_bh42v")]
+transform = Transform3D(0.123132, 0.00412554, 0.157548, 0, 0.199931, -0.00523539, -0.157602, 0.00322323, 0.12309, -8.80014, -0.531642, -0.536306)
+
+[node name="TreasureArea" type="Area3D" parent="Sketchfab_Scene7"]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sketchfab_Scene7/TreasureArea"]
+transform = Transform3D(1, -9.31323e-10, 5.96046e-08, -5.58794e-09, 1, -5.58794e-09, 5.96046e-08, -1.95578e-08, 1, -0.419018, 0.585322, -0.269291)
+shape = SubResource("SphereShape3D_hurpl")
+
+[node name="ScoreUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -54.0
+offset_right = 20.0
+offset_bottom = 62.0
+grow_horizontal = 2
+
+[node name="ScoreLabel" type="Label" parent="ScoreUI"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 30
+text = "Score: 0"
+vertical_alignment = 1
+
+[node name="WinUI" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="WinUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.00392157)
+
+[node name="WinLabel" type="Label" parent="WinUI"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 30
+text = "🎉 ПОБЕДИВТЕ! 🎉"
+horizontal_alignment = 1
+vertical_alignment = 1

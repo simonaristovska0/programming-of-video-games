@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://bn3h8cgifor8a"]
+
+[ext_resource type="Texture2D" uid="uid://b61dutmw6qrav" path="res://textures/grass/rocky_terrain_02_diff_1k.jpg" id="1_wqb5d"]
+
+[resource]
+albedo_texture = ExtResource("1_wqb5d")
+roughness_texture_channel = 4
+normal_enabled = true
+uv1_triplanar = true
