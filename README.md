@@ -14,7 +14,8 @@ A simple 3D adventure game built in **Godot** where the player explores a natura
 - Collect items to increase score  
 - Reach the goal before time runs out  
 
-## Project Structure  
+## Project Structure
+```
 game_project/ 
 │── assets/ # Textures, models, and other assets
 │── scenes/ # Godot scene files
@@ -27,6 +28,7 @@ game_project/
 │ ├── game_manager.gd # Controls game state and logic
 │ ├── ui_manager.gd # Manages UI updates
 │── project.godot # Godot project file
+```
 
 
 ## Running the Game  
