@@ -15,7 +15,8 @@ A simple 3D adventure game built in **Godot** where the player explores a natura
 - Reach the goal before time runs out  
 
 ## Project Structure  
-game_project/ │── assets/ # Textures, models, and other assets
+game_project/ 
+│── assets/ # Textures, models, and other assets
 │── scenes/ # Godot scene files
 │ ├── main.tscn # Main game scene
 │ ├── player.tscn # Player character scene
